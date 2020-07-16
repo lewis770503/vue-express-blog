@@ -199,7 +199,7 @@ export default {
   display: inline-block
   vertical-align: middle
 .card-edit
-  height: 46px
+  height: 44px
   margin-bottom: 5px;
   overflow: hidden
   white-space: nowrap

@@ -4,6 +4,7 @@ const stringtags = require('striptags');
 const momont = require('moment');
 const convertPagination = require('../modules/convertPagination');
 const firebaseAdminDb = require('../connections/firebase_admin');
+const jwt = require('jsonwebtoken');
 
 const user = firebaseAdminDb.ref('users');
 const categoriesRef = firebaseAdminDb.ref('categories');
@@ -22,14 +23,14 @@ router.get('/article/create', function (req, res) {
 
 router.get('/article/:id', function (req, res) {
     const id = req.params.id;
-    console.log(id);
+    // console.log(id);
     let categories = {};
     categoriesRef.once('value').then(function (snapshot) {
         categories = snapshot.val();
         return articlesRef.child(id).once('value');
     }).then(function (snapshot) {
         const article = snapshot.val();
-        console.log(article);
+        // console.log(article);
         if (article === null) {
             return res.send({
                 msg: '無此文章',
@@ -88,7 +89,9 @@ router.get('/categories', function (req, res, next) {
 //post
 
 router.post('/article/create', function (req, res) {
-    let uid = 'TVNr7i7rutRBDEph376gkYnyXpt2';
+    let token = req.body.data.token;
+    let decoded = jwt.verify(token, process.env.TOKEN_KEY);
+    let uid = decoded.tokenId;
     user.child(uid).once('value').then(function (snapshot) {
             let nickname = snapshot.val().nickname;
             const data = req.body.data;

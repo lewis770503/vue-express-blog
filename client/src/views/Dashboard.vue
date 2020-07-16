@@ -21,8 +21,11 @@
           <router-link :to="{ name: 'Archives' }" class="nav-item nav-link">
             文章列表
           </router-link>
-          <a href="/auth/signup" class="nav-item nav-link">註冊新管理者</a>
-          <a class="nav-link" href="/auth/signout">登出</a>
+
+          <!-- <a href="/auth/signup" class="nav-item nav-link">註冊新管理者</a> -->
+          <router-link :to="{ name: 'Logout' }" class="nav-item nav-link">
+            登出
+          </router-link>
         </div>
       </div>
     </nav>

@@ -132,6 +132,7 @@ export default {
     userInsert() {
       this.session = this.$session.get("jwt");
       if (this.session !== undefined) {
+        console.log("inster true");
         this.$router.push({ name: "Archives" });
       }
     },

@@ -179,6 +179,7 @@ export default {
         status: "",
         content: "",
         category: "",
+        token: "",
       },
       editorConfig: {
         language: "zh",
@@ -228,21 +229,29 @@ export default {
       }
       const order = vm.articleData;
       vm.isLoading = true;
-      this.$http.post(api, { data: order }).then((response) => {
-        if (response.data.success) {
-          this.$router.push({
-            name: "Article",
-            params: { articleId: response.data.articleId },
-          });
-          this.articleId = response.data.articleId;
-          this.getArticle(this.articleId);
-          vm.isLoading = false;
-        }
-      });
+      console.log(api);
+      console.log(order);
+      this.$http
+        .post(api, { data: order })
+        .then((response) => {
+          if (response.data.success) {
+            this.$router.push({
+              name: "Article",
+              params: { articleId: response.data.articleId },
+            });
+            this.articleId = response.data.articleId;
+            this.getArticle(this.articleId);
+            vm.isLoading = false;
+          }
+        })
+        .catch((err) => {
+          this.error = err.message;
+        });
     },
   },
   async created() {
     this.articleId = this.$route.params.articleId;
+    this.articleData.token = this.$session.get("jwt");
     this.getArticle(this.articleId);
   },
 };

@@ -65,6 +65,14 @@ const routes = [{
         meta: {
           requiresAuth: true
         }
+      },
+      {
+        path: 'logout',
+        name: 'Logout',
+        component: dashboardComponent('logout'),
+        meta: {
+          requiresAuth: true
+        }
       }
     ]
   }
@@ -76,17 +84,17 @@ const router = new VueRouter({
   routes
 });
 
+//會員驗證
 router.beforeEach((to, from, next) => {
   // console.log('To:', to, "From:", from, ",Next:", next);
   // console.log('\n', to.meta.requiresAuth);
   let token = Vue.prototype.$session.get('jwt');
   if (to.meta.requiresAuth) {
-    console.log("需要驗證");
+    console.log('需驗證');
     const api = `/api/auth/check`;
     Vue.prototype.axios.post(api, {
       token: token
     }).then((response) => {
-      console.log('驗證資訊:', response.data);
       if (response.data.success) {
         next();
       } else {

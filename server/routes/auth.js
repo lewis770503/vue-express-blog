@@ -14,16 +14,6 @@ router.get('/success', function (req, res) {
     });
 });
 
-router.get('/signout', function (req, res) {
-    res.render('dashboard/signout', {
-        title: '確認登出嗎?'
-    });
-})
-router.get('/signout/true', function (req, res) {
-    req.session.uid = '';
-    res.redirect('/auth/login');
-});
-
 router.get('/login', function (req, res) {
     let error = req.flash('error');
     if (req.session.uid) {
@@ -138,7 +128,38 @@ router.post('/login', function (req, res) {
             });
         });
 });
-
+router.post('/signout', function (req, res) {
+    let token = req.body.token;
+    let decoded = jwt.verify(token, process.env.TOKEN_KEY);
+    let success,
+        timeNow = Math.floor(Date.now() / 1000),
+        timeDiff = timeNow - decoded.tokenTime,
+        tokenDay = Math.floor(timeDiff / 60 / 60 / 24);
+    tokenDbs.orderByChild('token').equalTo(token).once('value').then(snapshot => {
+        if (snapshot.val() !== null) {
+            if (tokenDay > 3) {
+                tokenDbs.child(decoded.tokenId).remove();
+                success = true;
+                return res.send({
+                    success,
+                    msg: '已刪除Token，請重新登入'
+                })
+            } else {
+                success = true;
+                return res.send({
+                    success,
+                    msg: '無刪除Token，可再次登入'
+                });
+            }
+        } else {
+            success = true;
+            return res.send({
+                success,
+                msg: '無此token，可重新登入'
+            });
+        }
+    });
+});
 router.post('/signup', function (req, res) {
     let email = req.body.email,
         password = req.body.password,
