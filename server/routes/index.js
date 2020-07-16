@@ -59,7 +59,30 @@ router.get('/', (req, res, next)=> {
       page_category
     });
   });
-  // res.send([{title: 'test'}]);
+});
+
+router.get('/post/:id', function (req, res, next) {
+  const id = req.param('id');
+    let categories = {};
+    categoriesRef.once('value').then(function(snapshot){
+        categories = snapshot.val();
+        return articlesRef.child(id).once('value');
+    }).then(function(snapshot){
+        const article = snapshot.val();
+        if(!article){
+          var err = new Error('Not Found');
+          err.status = 500;
+          return res.send({
+            message: err.message,
+            error: err,
+            title: '找不到文章'
+          })
+        }
+        res.send({
+            categories,
+            article
+        });
+    });
 });
 
 module.exports = router;
