@@ -15,6 +15,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
+          <router-link :to="{ name: 'Index' }" class="nav-item nav-link"
+            >回前台
+          </router-link>
           <router-link :to="{ name: 'Categories' }" class="nav-item nav-link"
             >管理文章分類
           </router-link>

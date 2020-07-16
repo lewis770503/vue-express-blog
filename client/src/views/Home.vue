@@ -4,7 +4,7 @@
       class="navbar navbar-expand-lg navbar-dark"
       style="background-color: #0a7773;"
     >
-      <router-link class="navbar-brand" to="/">
+      <router-link class="navbar-brand" :to="{ name: 'Index' }">
         <i class="fa fa-address-book" aria-hidden="true"></i>
         部落格
       </router-link>
@@ -19,6 +19,26 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <router-link
+              class="nav-link"
+              :to="{ name: 'Index' }"
+              :class="{ active: router == 'Index' }"
+              >首頁</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link
+              class="nav-link"
+              :to="{ name: 'Login' }"
+              :class="{ active: router == 'Dashboard' }"
+              >後台</router-link
+            >
+          </li>
+        </ul>
+      </div>
     </nav>
     <router-view></router-view>
     <footer class="bg-light text-muted py-5">
@@ -40,9 +60,14 @@
 
 export default {
   name: "Home",
-  // components: {
-  //   Index
-  // }
+  data() {
+    return {
+      router: "",
+    };
+  },
+  async created() {
+    this.router = this.$route.name;
+  },
 };
 </script>
 
