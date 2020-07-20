@@ -66,11 +66,14 @@
           </ValidationProvider>
           <hr />
           <ValidationProvider rules="required" name="內容" v-slot="{ errors }">
-            <ckeditor
-              :editor="editor"
+            <vue-editor
+              class="editor"
+              :editor-toolbar="customToolbar"
+              useCustomImageHandler
+              @image-added="handleImageAdded"
               v-model="articleData.content"
-              :config="editorConfig"
-            ></ckeditor>
+            >
+            </vue-editor>
             <div class="text-danger pt-1">{{ errors[0] }}</div>
           </ValidationProvider>
         </div>
@@ -103,11 +106,7 @@
             <div class="card-body">
               <div class="btn-group btn-group-toggle w-100">
                 <div class="form-check">
-                  <ValidationProvider
-                    rules="required"
-                    name="status"
-                    v-slot="{ errors }"
-                  >
+                  <ValidationProvider rules="required" name="status">
                     <label class="form-check-label">
                       <input
                         type="radio"
@@ -119,11 +118,7 @@
                   </ValidationProvider>
                 </div>
                 <div class="form-check">
-                  <ValidationProvider
-                    rules="required"
-                    name="status"
-                    v-slot="{ errors }"
-                  >
+                  <ValidationProvider rules="required" name="status">
                     <label class="form-check-label">
                       <input
                         type="radio"
@@ -149,7 +144,10 @@
           </div>
           <div class="btn-group w-100">
             <a
-              href="/dashboard/archives"
+              href="javascript:;"
+              @click.prevent="
+                hasHistory() ? $router.go(-1) : $router.push({ name: 'Login' })
+              "
               class="btn btn-outline-primary w-100"
               title="回列表"
               >回列表</a
@@ -162,27 +160,39 @@
 </template>
 <script>
 import $ from "jquery";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import "@ckeditor/ckeditor5-build-classic/build/translations/zh";
+import { VueEditor } from "vue2-editor";
 
 export default {
   name: "Article",
   metaInfo: {
     title: "管理文章",
   },
+  components: {
+    VueEditor,
+  },
   data() {
     return {
-      editor: ClassicEditor,
-      picked: "",
+      //editor set
+      customToolbar: [
+        [{ font: [] }, { header: [false, 1, 2, 3, 4, 5, 6] }],
+        ["color", "background", { size: ["small", false, "large", "huge"] }],
+        ["bold", "italic", "underline"],
+        [{ align: [] }],
+        [
+          { list: "ordered" },
+          { list: "bullet" },
+          { indent: "-1" },
+          { indent: "+1" },
+        ],
+        ["blockquote", "code-block", "image", "video"],
+        ["clean"],
+      ],
+      //editor set ---//
       articleData: {
         title: "",
         status: "",
         content: "",
         category: "",
-        token: "",
-      },
-      editorConfig: {
-        language: "zh",
       },
       categories: {},
       articleId: "",
@@ -194,6 +204,35 @@ export default {
     };
   },
   methods: {
+    handleImageAdded(file, Editor, cursorLocation, resetUploader) {
+      let vm = this,
+        api = "/api/upload";
+      const formData = new FormData();
+      console.log("editor:");
+      formData.append("file", file);
+      this.$http
+        .post(api, formData)
+        .then((result) => {
+          let url = result.data.url; // Get url from response
+          Editor.insertEmbed(cursorLocation, "image", url);
+          resetUploader();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    hasHistory() {
+      return window.history.length > 2;
+    },
+    onReady(editor) {
+      // Insert the toolbar before the editable area.
+      editor.ui
+        .getEditableElement()
+        .parentElement.insertBefore(
+          editor.ui.view.toolbar.element,
+          editor.ui.getEditableElement()
+        );
+    },
     getArticle(id) {
       let vm = this,
         api = "";
@@ -229,8 +268,6 @@ export default {
       }
       const order = vm.articleData;
       vm.isLoading = true;
-      console.log(api);
-      console.log(order);
       this.$http
         .post(api, { data: order })
         .then((response) => {
@@ -258,7 +295,7 @@ export default {
 </script>
 
 <style>
-.ck-editor__editable {
-  min-height: 300px;
+.editor1 {
+  height: 350px;
 }
 </style>

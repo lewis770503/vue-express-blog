@@ -3,7 +3,6 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Meta from 'vue-meta';
 import VueLoading from 'vue-loading-overlay';
-import CKEditor from '@ckeditor/ckeditor5-vue';
 import VueSession from 'vue-session';
 
 //vee-validate
@@ -28,7 +27,6 @@ Vue.use(VueAxios, axios);
 Vue.use(require('vue-moment'));
 Vue.use(Meta);
 Vue.component('Loading', VueLoading);
-Vue.use(CKEditor);
 Vue.use(VueSession);
 
 // vee-validate

@@ -57,7 +57,7 @@
           <div class="card-footer p-0 btn-group">
             <a
               href="javascript:;"
-              class="btn btn-outline-danger rounded-0 deletePost w-25"
+              class="btn btn-outline-danger rounded-0 deletePost w-100"
               @click.prevent="deleteArticle(item.id)"
               >刪除</a
             >
@@ -66,12 +66,12 @@
               class="btn btn-outline-secondary w-100 rounded-0"
               >編輯</router-link
             >
-            <router-link
+            <!-- <router-link
               :to="{ name: 'detail', params: { wordId: item.id } }"
               class="btn btn-outline-secondary w-100 rounded-0"
               target="_blank"
               >預覽</router-link
-            >
+            > -->
           </div>
         </div>
       </div>

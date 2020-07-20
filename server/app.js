@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const fileUpload = require('express-fileupload');
 const cors = require('cors');
 
 const app = express();
@@ -8,6 +9,7 @@ const app = express();
 //middlewar
 app.use(bodyParser.json());
 app.use(cors());
+app.use(fileUpload());
 
 //router
 const indexRouter = require('./routes/index');
@@ -20,7 +22,33 @@ app.use('/api/dashboard', dashBoard);
 app.use('/api/auth', auth);
 
 app.use(express.static(path.join(__dirname, '/public')));
+app.get(/.*/, (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
 
+app.post('/api/upload', (req, res, next) => {
+  if (!req.files) {
+    return res.status(500).send({
+      msg: "file is not found"
+    })
+  }
+  // accessing the file
+  const myFile = req.files.file;
+  // console.log(myFile);
+  //  mv() method places the file inside public directory
+  myFile.mv(`${__dirname}/public/images/${myFile.name}`, err => {
+    if (err) {
+      console.log(err)
+      return res.status(500).send({
+        msg: "Error occured"
+      });
+    }
+    // returing the response with file path and name
+    return res.send({
+      url: `/images/${myFile.name}`
+    });
+  });
+});
 // //handle production
 // if(process.env.NODE_ENV === 'production'){
 //     //Static folder
