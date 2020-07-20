@@ -62,7 +62,7 @@
                     </a>
                   </div>
                 </div>
-                <div class="card-edit" v-html="item.content"></div>
+                <!-- <div class="card-edit" v-html="item.content"></div> -->
               </div>
             </div>
             <div v-if="data.dataNull">

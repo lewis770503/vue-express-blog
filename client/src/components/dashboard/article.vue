@@ -67,7 +67,8 @@
           <hr />
           <ValidationProvider rules="required" name="內容" v-slot="{ errors }">
             <vue-editor
-              class="editor"
+              class="editor1"
+              :editor-toolbar="customToolbar"
               useCustomImageHandler
               @image-added="handleImageAdded"
               v-model="articleData.content"
@@ -172,20 +173,20 @@ export default {
   data() {
     return {
       //editor set
-      // customToolbar: [
-      //   [{ font: [] }, { header: [false, 1, 2, 3, 4, 5, 6] }],
-      //   ["color", "background", { size: ["small", false, "large", "huge"] }],
-      //   ["bold", "italic", "underline"],
-      //   [{ align: [] }],
-      //   [
-      //     { list: "ordered" },
-      //     { list: "bullet" },
-      //     { indent: "-1" },
-      //     { indent: "+1" },
-      //   ],
-      //   ["blockquote", "code-block", "image", "video"],
-      //   ["clean"],
-      // ],
+      customToolbar: [
+        [{ font: [] }, { header: [false, 1, 2, 3, 4, 5, 6] }],
+        ["color", "background", { size: ["small", false, "large", "huge"] }],
+        ["bold", "italic", "underline"],
+        [{ align: [] }],
+        [
+          { list: "ordered" },
+          { list: "bullet" },
+          { indent: "-1" },
+          { indent: "+1" },
+        ],
+        ["blockquote", "code-block", "image", "video"],
+        ["clean"],
+      ],
       //editor set ---//
       articleData: {
         title: "",
@@ -293,11 +294,12 @@ export default {
 };
 </script>
 
-<style>
-.editor1 {
-  height: 350px;
-}
-.editor1 img {
-  max-width: 100%;
-}
+<style lang="sass">
+.editor1
+  min-height: 300px
+  img
+    max-width: 100%
+  iframe
+    width: 100%
+    height: 500px
 </style>
