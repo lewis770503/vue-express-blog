@@ -175,7 +175,11 @@ export default {
       //editor set
       customToolbar: [
         [{ font: [] }, { header: [false, 1, 2, 3, 4, 5, 6] }],
-        ["color", "background", { size: ["small", false, "large", "huge"] }],
+        [
+          { color: [] },
+          { background: [] },
+          { size: ["small", false, "large", "huge"] },
+        ],
         ["bold", "italic", "underline"],
         [{ align: [] }],
         [
