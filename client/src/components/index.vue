@@ -34,7 +34,6 @@
             <div
               class="card mb-3"
               v-for="(item, index) in data.articles"
-              v-bind:item="item"
               v-bind:index="index"
               v-bind:key="item.id"
             >
@@ -206,4 +205,6 @@ export default {
   -webkit-line-clamp: 2
   -webkit-box-orient: vertical
   white-space: normal
+  img
+    max-width: 100%
 </style>

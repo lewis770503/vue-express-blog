@@ -298,4 +298,7 @@ export default {
 .editor1 {
   height: 350px;
 }
+.editor1 img {
+  max-width: 100%;
+}
 </style>

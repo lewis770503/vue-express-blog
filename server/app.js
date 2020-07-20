@@ -34,9 +34,9 @@ app.post('/api/upload', (req, res, next) => {
   }
   // accessing the file
   const myFile = req.files.file;
-  // console.log(myFile);
+  console.log(myFile);
   //  mv() method places the file inside public directory
-  myFile.mv(`${__dirname}/public/images/${myFile.name}`, err => {
+  myFile.mv(`${__dirname}/public/img/${myFile.name}`, err => {
     if (err) {
       console.log(err)
       return res.status(500).send({
@@ -45,7 +45,7 @@ app.post('/api/upload', (req, res, next) => {
     }
     // returing the response with file path and name
     return res.send({
-      url: `/images/${myFile.name}`
+      url: `/img/${myFile.name}`
     });
   });
 });

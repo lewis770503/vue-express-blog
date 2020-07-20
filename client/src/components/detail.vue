@@ -49,7 +49,7 @@
               </div>
             </div>
             <article class="text-dark post mb-4">
-              <div v-html="article.content"></div>
+              <div v-html="article.content" class="edit-style"></div>
             </article>
             <div class="pt-3 pb-5 text-center">
               <a
@@ -119,17 +119,7 @@ export default {
 </script>
 
 <style lang="sass">
-.card-icon i
-  font-size: 15px
-  display: inline-block
-  vertical-align: middle
-.card-edit
-  height: 50px
-  overflow: hidden
-  white-space: nowrap
-  text-overflow: ellipsis
-  display: -webkit-box
-  -webkit-line-clamp: 2
-  -webkit-box-orient: vertical
-  white-space: normal
+.edit-style
+  img
+    max-width: 100%
 </style>
