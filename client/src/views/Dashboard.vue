@@ -1,7 +1,9 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <a class="navbar-brand" href="/auth/login">Blog 控制台</a>
+      <router-link :to="{ name: 'Index' }" class="navbar-brand"
+        >Blog 控制台</router-link
+      >
       <button
         class="navbar-toggler"
         type="button"
