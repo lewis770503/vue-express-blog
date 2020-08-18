@@ -12,12 +12,11 @@
       <div class="row my-5 justify-content-center">
         <div class="col-12">
           <a
-            href=""
+            href
             @click.prevent="getList('all')"
             class="btn btn-outline-info mr-2"
             :class="{ active: data.page_category == 'all' }"
-            >All</a
-          >
+          >All</a>
           <a
             href="javascript:;"
             class="btn btn-outline-info mr-2"
@@ -26,10 +25,9 @@
             v-bind:key="item.id"
             :class="{ active: data.page_category === index }"
             @click.prevent="getList(item.id)"
-            >{{ item.name }}</a
-          >
+          >{{ item.name }}</a>
         </div>
-        <div class="row my-5 justify-content-center">
+        <div class="row my-5 justify-content-center col-12">
           <div class="col-md-12">
             <div
               class="card mb-3"
@@ -38,14 +36,13 @@
               v-bind:key="item.id"
             >
               <div class="card-body">
-                <router-link
-                  :to="{ name: 'detail', params: { wordId: item.id } }"
-                >
+                <router-link :to="{ name: 'detail', params: { wordId: item.id } }">
                   <h2 class="text-primary">{{ item.title }}</h2>
                 </router-link>
-                <div class="d-flex flex-row text-secondary ">
+                <div class="d-flex flex-row text-secondary">
                   <div class="p-2 card-icon">
-                    <i class="bi bi-person-fill"></i> {{ item.user }}
+                    <i class="bi bi-person-fill"></i>
+                    {{ item.user }}
                   </div>
                   <div class="p-2 card-icon">
                     <i class="bi bi-calendar3-fill"></i>
@@ -57,9 +54,7 @@
                       href="javascript:;"
                       class="text-info"
                       @click.prevent="getList(item.category)"
-                    >
-                      {{ data.categories[item.category].name }}
-                    </a>
+                    >{{ data.categories[item.category].name }}</a>
                   </div>
                 </div>
                 <!-- <div class="card-edit" v-html="item.content"></div> -->
@@ -70,22 +65,17 @@
             </div>
           </div>
         </div>
-        <nav
-          class="my-2"
-          aria-label="Page navigation example"
-          v-if="!data.dataNull"
-        >
+        <nav class="my-2 col-12" aria-label="Page navigation example" v-if="!data.dataNull">
           <ul class="pagination justify-content-center">
             <li class="page-item" :class="{ disabled: !pagination.hasPrev }">
               <a
                 class="page-link"
-                href=""
+                href
                 tabindex="-1"
                 @click.prevent="
                   getList(data.page_category, pagination.currentPage - 1)
                 "
-                >Previous</a
-              >
+              >Previous</a>
             </li>
             <li
               class="page-item"
@@ -94,23 +84,20 @@
             >
               <a
                 class="page-link"
-                href=""
+                href
                 @click.prevent="
                   getList(data.page_category, item + pagination.pageNum)
                 "
-              >
-                {{ item + pagination.pageNum }}
-              </a>
+              >{{ item + pagination.pageNum }}</a>
             </li>
             <li class="page-item" :class="{ disabled: !pagination.hasNext }">
               <a
                 class="page-link"
-                href=""
+                href
                 @click.prevent="
                   getList(data.page_category, pagination.currentPage + 1)
                 "
-                >Next</a
-              >
+              >Next</a>
             </li>
           </ul>
         </nav>
